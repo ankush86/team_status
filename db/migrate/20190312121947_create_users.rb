@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :last_name
       t.string :email
       t.string :contact
-      t.string :skills, array: true, default: []
+      t.string :skills
 
       t.timestamps
     end

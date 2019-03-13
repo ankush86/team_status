@@ -12,6 +12,15 @@ class User < ApplicationRecord
   validates :skills, presence: true
   validates :email, presence: true
 
+  # scopes
+  scope :skills_in, -> (skills) { where('skills like any (ARRAY[?])', skills) }
+  scope :by_name, -> (first_name, last_name) { where('first_name = ? OR last_name = ?', first_name, last_name) }
+  scope :on_project, -> (project) { joins(:projects).where('project_id = ?', project) }
+
+  scope :on_holidays, -> { joins(:holidays).where('holidays.start_at <= ? AND holidays.end_at >= ?', Time.now, Time.now)}
+
+  scope :on_working, -> { joins(:projects).where('projects.start_at <= ? AND projects.end_at >= ?', Time.now, Time.now) }
+
   def full_name
     "#{first_name} #{last_name}"
   end
@@ -25,6 +34,7 @@ class User < ApplicationRecord
   end
 
   def skills=(skills)
-    self[:skills] = skills.split(',')
+    binding.pry
+    self[:skills] = skills.gsub("[", "").gsub("]", "")
   end
 end

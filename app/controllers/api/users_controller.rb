@@ -1,7 +1,8 @@
 class Api::UsersController < ApplicationController
 
   def index
-    render json: User.all
+    users = FilterService.call(params)
+    render json: users
   end
 
   def create
