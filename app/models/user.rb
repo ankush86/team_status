@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 
   # Associations
+  has_many :holidays
   has_many :assigned_projects
   has_many :projects, through: :assigned_projects
 
