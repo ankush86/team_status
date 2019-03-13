@@ -34,7 +34,6 @@ class User < ApplicationRecord
   end
 
   def skills=(skills)
-    binding.pry
-    self[:skills] = skills.gsub("[", "").gsub("]", "")
+    self[:skills] = skills&.gsub("[", "")&.gsub("]", "")
   end
 end
