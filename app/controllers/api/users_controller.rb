@@ -2,7 +2,8 @@ class Api::UsersController < ApplicationController
 
   def index
     users = FilterService.call(params)
-    render json: users
+
+    render json: result(users)
   end
 
   def create
@@ -60,5 +61,14 @@ class Api::UsersController < ApplicationController
 
   def can_assign?
     UserProjectEngageService.new.check(params) == 'success'
+  end
+
+  def result(users)
+    page = params[:page].to_i > 0 ? params[:page].to_i : 1
+    has_previous = page > 1 ? true : false
+    has_next = users.count > User::PER_PAGE*page ? true : false
+
+    users = paginate users, per_page: User::PER_PAGE
+    {users: users, has_previous: has_previous, has_next: has_next, page: page}
   end
 end

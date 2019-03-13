@@ -49,5 +49,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'active_model_serializers'
+gem 'will_paginate'
+gem 'api-pagination'
 
 gem 'webmock'
