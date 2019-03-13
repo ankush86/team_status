@@ -1,6 +1,7 @@
 class Api::UsersController < ApplicationController
 
   def index
+    render json: User.all
   end
 
   def create
@@ -33,6 +34,19 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  # Assign project
+  def assign_project
+    user = User.find_by(id: params[:user_id])
+    project = Project.find_by(id: params[:project_id])
+
+    user.assigned_projects.new(project_id: project.id, start_at: Time.now, end_at: params[:end_date])
+    if can_assign? && user.save
+      render json: user, status: :created
+    else
+      render json: user.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def user_params
@@ -41,5 +55,9 @@ class Api::UsersController < ApplicationController
 
   def user
     User.find_by(id: params[:id])
+  end
+
+  def can_assign?
+    UserProjectEngageService.new.check(params) == 'success'
   end
 end

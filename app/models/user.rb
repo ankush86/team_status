@@ -19,6 +19,10 @@ class User < ApplicationRecord
     projects.where("end_at >= ?", Time.now)&.map(&:name)
   end
 
+  def end_date
+    assigned_projects.where("end_at >= ?", Time.now)&.map(&:end_at)
+  end
+
   def skills=(skills)
     self[:skills] = skills.split(',')
   end
