@@ -44,9 +44,8 @@ ActiveRecord::Schema.define(version: 2019_03_13_051009) do
     t.string "last_name"
     t.string "email"
     t.string "contact"
-    t.string "skills", default: [], array: true
+    t.string "skills"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-end
